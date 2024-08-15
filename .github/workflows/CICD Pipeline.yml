@@ -1,9 +1,9 @@
 name: Deploy to GitHub Pages
- 
+
 on:
   push:
     branches:
-       
+      
 main
 
 jobs:
@@ -27,4 +27,3 @@ name: Deploy to GitHub Pages
         enable_jekyll: false
         disable_nojekyll: false
         exclude_assets: .github
-
