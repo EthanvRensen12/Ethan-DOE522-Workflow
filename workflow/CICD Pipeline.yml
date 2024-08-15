@@ -1,67 +1,30 @@
-name: CI/CD Pipeline
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
+      
+main
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'
-    
-    - name: Install dependencies
-      run: npm install
-    
-    - name: Build the application
-      run: npm run build
-
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: build-artifacts
-        path: build/
-
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'
-
-    - name: Install dependencies
-      run: npm install
-    
-    - name: Run unit tests
-      run: npm test
-
-    - name: Run code quality checks (e.g., code coverage)
-      run: npm run lint
-
   deploy:
-    name: Deploy to Staging
     runs-on: ubuntu-latest
-    needs: test
     steps:
-    - name: Checkout code
+      
+name: Checkout code
       uses: actions/checkout@v3
-    
-    - name: Deploy to staging
-      run: echo "Deploying to Staging Environment..."
+
+      
+name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}  # Use the default token or your PAT if needed
+        publish_dir: ./your-html-directory  # Update to the correct directory path
+        publish_branch: gh-pages
+        allow_empty_commit: false
+        keep_files: false
+        force_orphan: false
+        enable_jekyll: false
+        disable_nojekyll: false
+        exclude_assets: .github
+
